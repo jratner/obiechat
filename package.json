@@ -1,11 +1,22 @@
 {
-  "name": "obiechat",
-  "version": "0.0.0",
-  "author": "Jack, Malcolm, & Lily <email here>",
-  "description": "see the git readme you snoop!",
-  "bin": {
-    "server": "./bin/server"
-  },
-  "scripts": {
-  }
+    "name": "obiechat",
+    "version": "0.0.0",
+    "author": "Jack, Malcolm, & Lily <email here>",
+    "description": "see the git readme you snoop!",
+    "bin": {
+	"server": "./bin/server"
+    },
+    "scripts": {
+    },
+    "repository": {
+	"type": "git",
+	"url": "https://github.com/jratner/obiechat"
+    },
+    "dependencies": {
+	"underscore": "*",
+	"mysql": "2.0.0-alpha7",
+	"orm": "*",
+	"orm-paging": "*",
+	"socket.io": "*"
+    }
 }

@@ -2,8 +2,8 @@
   "name": "obiechat",
   "dependencies": {
     "jquery": "*",
-    "requirejs": "*",
     "handlebars.js": "*",
-    "socket.io-client": "*"
+    "socket.io-client": "*",
+    "backbone": "*"
     }
 }
