@@ -6,6 +6,10 @@ var path = require('path');
 var orm = require("orm");
 var port = process.env.PORT || 3000;
 
+server.listen(port, function() {
+    console.log('listening on port', port);
+});
+
 io.sockets.on('connection', function(socket) {
     console.log('we have a connection');
     socket.emit('init', {data: 'hello from obiechat!'});
