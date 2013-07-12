@@ -23,7 +23,7 @@ define('oc', function(){
     return window;
 });
 
-require(['app', 'backbone', 'jquery'], function(app, Backbone, $){
+define(['app', 'backbone', 'jquery'], function(app, Backbone, $){
     console.log('in main');
     app.initialize(function(){
         Backbone.history.start({pushState:true});

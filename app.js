@@ -7,9 +7,9 @@ var path = require('path');
 var orm = require("orm");
 var port = process.env.PORT || 3000;
 
-app.configure(function(){
-    app.use('/media', express.static(__dirname + '/media'));
-    app.use(express.static(__dirname + '/public'));
+
+app.get('/', function(req, res, next) {
+    res.render('public/index');
 });
 
 server.listen(port, function() {
