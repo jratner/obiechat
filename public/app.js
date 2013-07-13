@@ -8,10 +8,10 @@ define(['oc', 'backbone', 'jquery'], function(oc, Backbone, $) {
     return {
         initialize: function(callback) {
             require(['views/mainView', 'modules/socketModule'], function(MainView, SocketModule) {
-                oc.Modules.socketModule = new SocketModule();
+                oc.socketModule = new SocketModule();
                 //oc.Views.mainView = new MainView();
                 //oc.Views.mainView.render();
-                oc.socket.initialize();
+                oc.socket = oc.socketModule.initialize();
                 oc.socket.on('init', function(res) {
                     console.log(res.data);
                 });

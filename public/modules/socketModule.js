@@ -1,7 +1,12 @@
-define(['oc', 'io'], function(oc, io) {
-    return {
-        initialize: function() {
-            var socket = oc.socket = io.connect("http://localhost:3000");
-        }
+define(['oc', 'socketio'], function(oc, io) {
+    oc.Modules.socketModule = function() {
+        var socket;
+        return {
+            initialize: function() {
+                socket = io.connect("http://localhost:3000");
+                return socket;
+            }
+        };
     };
+    return oc.Modules.socketModule;
 });

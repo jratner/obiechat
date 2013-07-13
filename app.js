@@ -7,10 +7,11 @@ var path = require('path');
 var orm = require("orm");
 var port = process.env.PORT || 3000;
 
-
-app.get('/', function(req, res, next) {
-    res.render('public/index');
+app.configure(function(){
+    app.use('/media', express.static(__dirname + '/media'));
+    app.use(express.static(__dirname + '/public'));
 });
+
 
 server.listen(port, function() {
     console.log('listening on port', port);

@@ -1,6 +1,7 @@
 {
     "name": "obiechat",
     "dependencies": {
+        "underscore": "*",
         "requirejs": "*",
         "jquery": "*",
         "handlebars.js": "*",

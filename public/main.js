@@ -1,14 +1,17 @@
 require.config({
     paths: {
-        jquery: 'bower_components/jquery/jquery.js',
-        underscore: "bower_components/backbone.iobind/dist/backbone.iobind.js",
-        io: 'bower_components/socket.io-client/lib/socket.io-client.js',
-        handlebars: "bower_components/handlebars.js/lib/handlebars.js",
-        backbone: "bower_components/backbone/backbone.js",
-        ioSync: "bower_components/backbone.iobind/dist/backbone.iosync.js",
-        ioBind: "bower_components/backbone.iobind/dist/backbone.iobind.js"
+        jquery: 'bower_components/jquery/jquery',
+        underscore: "bower_components/underscore/underscore",
+        socketio: 'bower_components/socket.io-client/dist/socket.io',
+        handlebars: "bower_components/handlebars.js/lib/handlebars",
+        backbone: "bower_components/backbone/backbone",
+        ioSync: "bower_components/backbone.iobind/dist/backbone.iosync",
+        ioBind: "bower_components/backbone.iobind/dist/backbone.iobind"
     },
     shim: {
+        'socketio': {
+            exports: 'io'
+        },
         'backbone': {
             deps: ['underscore', 'jquery'],
             exports: 'Backbone'
@@ -23,8 +26,7 @@ define('oc', function(){
     return window;
 });
 
-define(['app', 'backbone', 'jquery'], function(app, Backbone, $){
-    console.log('in main');
+require(['app', 'backbone', 'jquery'], function(app, Backbone, $){
     app.initialize(function(){
         Backbone.history.start({pushState:true});
     });
