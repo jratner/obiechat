@@ -1,9 +1,12 @@
 {
-  "name": "obiechat",
-  "dependencies": {
-    "jquery": "*",
-    "requirejs": "*",
-    "handlebars.js": "*",
-    "socket.io-client": "*"
+    "name": "obiechat",
+    "dependencies": {
+        "underscore": "*",
+        "requirejs": "*",
+        "jquery": "*",
+        "handlebars.js": "*",
+        "socket.io-client": "*",
+        "backbone": "*",
+        "backbone.iobind": "*"
     }
 }
