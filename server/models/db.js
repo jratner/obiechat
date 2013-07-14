@@ -8,13 +8,17 @@ var opts = {
 };
 var db = orm.connect(opts);
 
-module.exports = function() {
+module.exports = (function() {
     db.on('connect', function(err, db) {
         if (err) {
             return new Error('Bad DB Connection');
         }
     });
-    db.message = require("./message.js")(db);
-    return db;
-};
-
+    var message = require("./message.js")(db);
+    var topic = require("./topic.js")(db);
+    
+    return {
+        message: message,
+        topic: topic
+    };
+})();
