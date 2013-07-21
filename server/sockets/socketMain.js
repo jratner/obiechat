@@ -4,5 +4,7 @@ module.exports = function(io) {
         socket.emit('init', {data: 'hello from obiechat!'});
 
         var messageSockets = require('./messageSockets.js')(socket);
+        //var templates = require('./templateLoader.js');
+        //socket.emit('templates', {data: templates});
     });
 };

@@ -13,7 +13,7 @@ var opts = {
 
 
 var createTables = function(db) {
-    var Message = require("./server/models/message.js")(db);
+    var Message = require("./server/models/db.js")(db);
     Message.drop(function(err) {
         if(err) {
             return console.log("failed to create message table");

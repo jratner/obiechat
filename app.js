@@ -10,6 +10,7 @@ var port = process.env.PORT || 3000;
 app.configure(function(){
     app.use('/media', express.static(__dirname + '/media'));
     app.use(express.static(__dirname + '/public'));
+    app.use(express.static(__dirname + '/public/templates'));
 });
 
 

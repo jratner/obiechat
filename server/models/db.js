@@ -1,4 +1,7 @@
 var orm = require("orm");
+var paging = require("orm-paging");
+var occonf = require("../../occonf.json");
+
 var opts = {
     database: "obiechat",
     protocol: "mysql",
@@ -14,11 +17,15 @@ module.exports = (function() {
             return new Error('Bad DB Connection');
         }
     });
-    var message = require("./message.js")(db);
-    var topic = require("./topic.js")(db);
+
+    db.use(paging);
+    var Message = require("./message.js")(db);
+    var Topic = require("./topic.js")(db);
+    
+    Topic.settings.set("pagination.perpage", occonf.pageSize);
     
     return {
-        message: message,
-        topic: topic
+        Message: Message,
+        Topic: Topic
     };
 })();
