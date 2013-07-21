@@ -6,10 +6,10 @@ require.config({
         backbone: "bower_components/backbone/backbone",
         ioSync: "bower_components/backbone.iobind/dist/backbone.iosync",
         ioBind: "bower_components/backbone.iobind/dist/backbone.iobind",
-        "hbs": "bower_components/require-handlebars-plugin/hbs",
-        "Handlebars": "bower_components/require-handlebars-plugin/Handlebars",
-        "hbs/underscore": "bower_components/underscore/underscore",
-        "hbs/json2": "bower_components/require-handlebars-plugin/hbs/json2"
+        handlebars: "bower_components/require-handlebars-plugin/Handlebars",
+        json2: "bower_components/require-handlebars-plugin/hbs/json2",
+        hbs: "bower_components/require-handlebars-plugin/hbs",
+        i18nprecompile: "bower_components/require-handlebars-plugin/hbs/i18nprecompile"
     },
     shim: {
         'socketio': {
@@ -21,7 +21,18 @@ require.config({
         },
         'underscore': {
             exports: '_'
+        },
+        'hbs': {
+            deps: ['underscore', 'json2', 'i18nprecompile', 'handlebars'],
+            exports: 'hbs'
         }
+    },
+    
+    hbs: {
+        templateExtension: "hbs",
+        // if disableI18n is `true` it won't load locales and the i18n helper
+        // won't work as well. (internationalization stuff we probs don't need) 
+        disableI18n : true
     }
 });
 

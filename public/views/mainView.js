@@ -1,16 +1,15 @@
-define(['oc', 'jquery', 'backbone', 'handlebars', 'mainTemplate'], function(oc, $, Backbone, Handlebars, template) {
-    return Backbone.Views.extend({
-        el: $('#main'),
-        
+define(['oc', 'jquery', 'backbone', 'hbs!templates/main'], function(oc, $, Backbone, template) {
+    return Backbone.View.extend({
         events: {
         },
         
         initialize: function(options) {
-            this.Template = oc.Templates.Main;
+            this.el = $('#main');
         },
 
         render: function() {
-            $(this.el).html(this.Template());
+            console.log(this.el);
+            $(this.el).html(template({info: "poop"}));
         },
 
         openTopic: function(e) {

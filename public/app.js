@@ -4,7 +4,6 @@ define(['oc', 'backbone', 'jquery'], function(oc, Backbone, $) {
     oc.Collections = {};
     oc.Controllers = {};
     oc.Modules = {};
-    oc.Templates = {};
 
     return {
         initialize: function(callback) {
