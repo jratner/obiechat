@@ -2,7 +2,7 @@
     "name": "obiechat",
     "version": "0.0.0",
     "author": "Jack, Malcolm, & Lily <email here>",
-    "description": "see the git readme you snoop!",
+    "description": "see the git readme",
     "bin": {
 	"server": "./bin/server"
     },
