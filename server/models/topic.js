@@ -1,7 +1,8 @@
 var orm = require("orm");
 
+
 module.exports = function(db) {
-    return db.define("topic", {
+    var Topic = db.define("topic", {
         name: String,
 	createdDate: Date,
         lastPostDate: Date,
@@ -12,7 +13,7 @@ module.exports = function(db) {
             getMessages: function() {
                 db.Message.find({topicId: this.id}, ["createdDate", '-1'], function(err, messages) {
                     if (err) {
-                        new Error("Couldn't get messages in topic");
+                        console.log(err);
                     }
                     return messages;
                 });
@@ -30,4 +31,12 @@ module.exports = function(db) {
             }
         }
     });
+    
+    Topic.findById = function(id, cb) {
+        this.find({id: id}, cb);
+    };
+    
+    Topic.settings.set("pagination.perpage", occonf.pageSize);
+    
+    return Topic;
 };
