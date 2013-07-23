@@ -1,0 +1,20 @@
+<div class="topicPreviewsContainer">
+  {{#each topics}}
+    <div class="topicPreview">
+      <div class="topicName">
+        {{ name }}
+      </div>
+      {{#if owner}}
+        <div class="owner">
+          {{ owner }}
+        </div>
+      {{/if}}
+      <div class="lastMessage">
+        Not doing this yet.
+      </div>
+      <div class="type">
+        {{ type }}
+      </div>
+    </div>
+  {{/each}}
+</div>

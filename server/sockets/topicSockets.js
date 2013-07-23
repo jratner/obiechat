@@ -47,6 +47,7 @@ module.exports = function() {
                     socket.emit('error', err);
                 }
                 socket.emit('topic:opened', {topic: topic});
+                // this looks wrong...
                 events.on('topic'+topic.id, changeTopic(socket));
             });
         });
@@ -54,6 +55,16 @@ module.exports = function() {
         // close a topic for a socket
         socket.on('topic:close', function(data) {
             // just remove listeners for changes to topic for this socket
+        });
+
+        socket.on('topics:getMain', function(data) {
+            Topic.getHomePage(data.page, function(err, topics) {
+                if(err) {
+                    console.log(err);
+                    socket.emit('error', err);
+                }
+                socket.emit('topics:main', {topics: topics});
+            });
         });
     };
 
@@ -65,7 +76,7 @@ module.exports = function() {
     var changeTopic = function(socket) {
         console.log('changed topic!');
     };
-    
+
     return {
         sockets: sockets,
         startListening: startListening,

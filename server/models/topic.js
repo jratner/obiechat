@@ -1,4 +1,5 @@
 var orm = require("orm");
+var occonf = require("../../occonf.json");
 
 
 module.exports = function(db) {
@@ -32,11 +33,17 @@ module.exports = function(db) {
         }
     });
     
+    Topic.settings.set("pagination.perpage", occonf.pageSize);
+    
     Topic.findById = function(id, cb) {
         this.find({id: id}, cb);
     };
-    
-    Topic.settings.set("pagination.perpage", occonf.pageSize);
+
+    Topic.getHomePage = function(page, cb) {
+        this.page(page).order('lastPostDate').run(function(err, topics) {
+            cb(err, topics);
+        });
+    };
     
     return Topic;
 };

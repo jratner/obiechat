@@ -1,19 +1,24 @@
-define(['oc', 'jquery', 'backbone', 'hbs!templates/main'], function(oc, $, Backbone, template) {
-    return Backbone.View.extend({
+define(['oc', 'jquery', 'backbone', 'hbs!templates/main', 'collections/topicCollection', 'views/topicListView', 'models/userModel', 'views/userAccountView'],
+function(oc, $, Backbone, template, TopicCollection, TopicListView, UserModel, UserAccountView) {
+    oc.Views.mainView = Backbone.View.extend({
+        el: $('#main'),
         events: {
         },
         
         initialize: function(options) {
-            this.el = $('#main');
+            this.topicList = new TopicCollection();
+            this.topicList.getMainTopics();
+            this.topicListView = new TopicListView({collection: this.topicList});
+            this.userAccountView = new UserAccountView({model: oc.currentUser});
         },
 
         render: function() {
-            console.log(this.el);
             $(this.el).html(template({info: "poop"}));
-        },
-
-        openTopic: function(e) {
-            // open view for clicked topic
+            this.userAccountView.el = $('.userAccountHolder');
+            this.userAccountView.render();
+            this.topicListView.el = $('.topicListHolder');
+            this.topicListView.render();
         }
     });
+    return oc.Views.mainView;
 });
