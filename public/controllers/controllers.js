@@ -1,5 +1,6 @@
-define(['oc', 'jquery', 'backbone', 'controllers/userController'], function(oc, $, Backbone, UserController) {
+define(['oc', 'jquery', 'backbone', 'controllers/userController', 'controllers/ocController'], function(oc, $, Backbone, UserController, OcController) {
     return {
-        userController: new UserController()
+        userController: new UserController(),
+        ocController: new OcController()
     };
 });
