@@ -7,6 +7,6 @@
         "handlebars.js": "*",
         "socket.io-client": "*",
         "backbone": "*",
-        "backbone.iobind": "*"
+        "require-handlebars-plugin": "*"
     }
 }

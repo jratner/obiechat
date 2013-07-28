@@ -1,0 +1,17 @@
+<div class="userAccountContainer">
+  {{#if user}}
+    <div class="userInfo">
+      <div class="displayName">
+        {{ displayname }}
+      </div>
+      <div class="name">
+        {{ firstName }}{{#if nickName}}{{nickName}}{{/if}}{{ lastName }}
+      </div>
+    </div>
+    <div class="userActions">
+    </div>
+  {{else}}
+    <a class="signinLink" href="signin" data-pushstate=true>Sign In</a>
+    <div>test</div>
+  {{/if}}
+</div>

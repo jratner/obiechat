@@ -5,16 +5,24 @@ define(['oc', 'backbone', 'jquery'], function(oc, Backbone, $) {
     oc.Controllers = {};
     oc.Modules = {};
 
+    oc.Views.setContentView = function(View) {
+        if (oc.Views.contentView) {
+            oc.Views.contentView.remove();
+            // this is kind of a hack, i'd rather have #content not get removed
+            // each time we swap the view in content...
+            $('#main').append('<div id="content"></div>');
+        }
+        oc.Views.contentView = new View({el: $('#content')});
+    };
+
     return {
         initialize: function(callback) {
-            require(['views/mainView', 'modules/socketModule'], function(MainView, SocketModule) {
+            require(['views/mainView', 'modules/socketModule', 'controllers/controllers'], function(MainView, SocketModule, controllers) {
                 oc.socketModule = new SocketModule();
-                //oc.Views.mainView = new MainView();
-                //oc.Views.mainView.render();
                 oc.socket = oc.socketModule.initialize();
-                oc.socket.on('init', function(res) {
-                    console.log(res.data);
-                });
+                oc.Views.mainView = new MainView();
+                oc.Views.mainView.render();
+                oc.Controllers = controllers;
                 callback();
             });
         }
