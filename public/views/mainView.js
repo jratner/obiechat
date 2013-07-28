@@ -8,15 +8,13 @@ function(oc, $, Backbone, template, TopicCollection, TopicListView, UserModel, U
         initialize: function(options) {
             this.topicList = new TopicCollection();
             this.topicList.getMainTopics();
-            this.topicListView = new TopicListView({collection: this.topicList});
-            this.userAccountView = new UserAccountView({model: oc.currentUser});
         },
 
         render: function() {
             $(this.el).html(template({info: "poop"}));
-            this.userAccountView.el = $('.userAccountHolder');
+            this.userAccountView = new UserAccountView({model: oc.currentUser, el: $('.userAccountHolder')});
             this.userAccountView.render();
-            this.topicListView.el = $('.topicListHolder');
+            oc.Views.contentView = this.topicListView = new TopicListView({collection: this.topicList, el: $('#content')});
             this.topicListView.render();
         }
     });

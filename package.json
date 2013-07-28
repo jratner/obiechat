@@ -18,6 +18,8 @@
 	"mysql": "2.0.0-alpha7",
 	"orm": "*",
 	"orm-paging": "*",
-	"socket.io": "*"
+	"socket.io": "*",
+        "passport": "*",
+        "passport-google": "*"
     }
 }

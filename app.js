@@ -21,4 +21,4 @@ server.listen(port, function() {
 app.use(express.logger());
 
 var db = require('./server/models/db.js');
-var sockets = require('./server/sockets/socketMain.js')(io);
+var sockets = require('./server/sockets/socketMain.js')(io, app);

@@ -35,6 +35,22 @@ var topicTable = function(next) {
         });
     });
 };
+var userTable = function(next) {
+    db.User.drop(function(err) {
+        if(err) {
+            return next(err);
+        }
+        console.log("table backing user model dropped");
+        
+        db.User.sync(function(err) {
+            if(err) {
+                return next(err);
+            }
+            console.log("created table backing user model");
+            next();
+        });
+    });
+};
     
 messageTable(function(err) {
     if (err) {
@@ -46,7 +62,14 @@ messageTable(function(err) {
             console.log(err);
             process.exit();
         }
-        console.log("Success!!");
-        process.exit();
+        userTable(function(err) {
+            if (err) {
+                console.log(err);
+                process.exit();
+            }
+
+            console.log("Success!!");
+            process.exit();
+        });
     });
 });

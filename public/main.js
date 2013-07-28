@@ -43,5 +43,17 @@ define('oc', function(){
 require(['app', 'backbone', 'jquery'], function(app, Backbone, $){
     app.initialize(function(){
         Backbone.history.start({pushState:true});
+
+        // force links to be handled by backbone controllers
+        $(document).on('click', 'a:not([data-bypass])', function (evt) {
+
+            var href = $(this).attr('href');
+            var protocol = this.protocol + '//';
+            
+            if (href.slice(protocol.length) !== protocol) {
+                evt.preventDefault();
+                Backbone.history.navigate(href, true);
+            }
+        });
     });
 });
