@@ -4,8 +4,6 @@ require.config({
         underscore: "bower_components/underscore/underscore",
         socketio: 'bower_components/socket.io-client/dist/socket.io',
         backbone: "bower_components/backbone/backbone",
-        ioSync: "bower_components/backbone.iobind/dist/backbone.iosync",
-        ioBind: "bower_components/backbone.iobind/dist/backbone.iobind",
         handlebars: "bower_components/require-handlebars-plugin/Handlebars",
         json2: "bower_components/require-handlebars-plugin/hbs/json2",
         hbs: "bower_components/require-handlebars-plugin/hbs",
