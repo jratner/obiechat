@@ -10,6 +10,7 @@ var port = process.env.PORT || 3000;
 app.configure(function(){
     app.use('/media', express.static(__dirname + '/media'));
     app.use(express.static(__dirname + '/public'));
+    app.use(express.static(__dirname + '/public/templates'));
 });
 
 
@@ -19,9 +20,5 @@ server.listen(port, function() {
 
 app.use(express.logger());
 
-io.sockets.on('connection', function(socket) {
-    console.log('we have a connection');
-    socket.emit('init', {data: 'hello from obiechat!'});
-});
-
 var db = require('./server/models/db.js');
+var sockets = require('./server/sockets/socketMain.js')(io, app);
