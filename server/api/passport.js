@@ -9,6 +9,15 @@ module.exports = function(app) {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(app.router);
+    var googlePaths = {};
+
+    if (occonf.development) {
+        googlePaths.returnURL = 'http://localhost:'+ occonf.port +'/auth/google/return';
+        googlePaths.realm = 'http://localhost:' + occonf.port + '/';
+    } else {
+        googlePaths.returnURL = 'http://' + occonf.domainName + '/auth/google/return';
+        googlePaths.realm = 'http://' + occonf.domainName + '/';
+    }
 
     passport.serializeUser(function(user, done) {
         console.log('serializing ', user);
@@ -21,10 +30,7 @@ module.exports = function(app) {
         });
     });
 
-    passport.use(new GoogleStrategy({
-        returnURL: 'http://' + occonf.domainName + '/auth/google/return',
-        realm: 'http://' + occonf.domainName + '/'
-    }, function(identifier, profile, done) {
+    passport.use(new GoogleStrategy(googlePaths, function(identifier, profile, done) {
         User.findOrCreateByOpenId(identifier, profile, function(err, user) {
             done(err, user);
         });

@@ -3,7 +3,7 @@ define(['oc', 'socketio'], function(oc, io) {
         var socket;
         return {
             initialize: function() {
-                socket = io.connect("http://www.obiechat.com");
+                socket = io.connect("http://localhost:3000");
                 socket.on('error', function(error) {
                     console.log('Error from server: ', error);
                 });
