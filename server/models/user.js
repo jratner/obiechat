@@ -27,9 +27,42 @@ module.exports = function(db) {
             }
         }
     });
+
+    User.findById = function(id, cb) {
+        User.find({id: id}, 1, function(err, user) {
+            if(err) {
+                return cb(err);
+            }
+            if(user && user.length) {
+                return cb(null, user[0]);
+            }
+            cb(null);
+        });
+    };
     
-    User.findByOpenId = function(openId, cb) {
-        this.find({openId: openId}, cb);
+    User.findOrCreateByOpenId = function(openId, profile, cb) {
+        User.find({openId: openId}, 1, function(err, user) {
+            if (err) {
+                return cb(err);
+            }
+            if (user && user.length) {
+                return cb(null, user[0]);
+            }
+            var userFields = {
+                openId: openId,
+                firstname: profile.name.familyName,
+                lastname: profile.name.givenName,
+                email: profile.emails[0].value
+            };
+            user = User(userFields);
+            user.save(function(err, user) {
+                if (err) {
+                    return cb(err);
+                }
+                console.log(user);
+                cb(null, user);
+            });
+        });
     };
 
     return User;
