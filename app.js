@@ -12,6 +12,7 @@ var sessionStore = new express.session.MemoryStore();
 var cookieParser = require('connect').cookieParser;
 var sessionPrefs = occonf.session;
 
+
 app.configure(function(){
     app.use('/media', express.static(__dirname + '/media'));
     app.use(express.static(__dirname + '/public'));
@@ -26,17 +27,14 @@ app.configure(function(){
 
 io.set('authorization', passportSocketIo.authorize({
     cookieParser: cookieParser,
-    key: sessionPrefs.key, //the cookie where express (or connect) stores its session id
-    secret: sessionPrefs.secret, //the session secret to parse the cookie
-    store: sessionStore,     //the session store that express uses
+    key: sessionPrefs.key,
+    secret: sessionPrefs.secret,
+    store: sessionStore,
     fail: function(data, accept) {
-        // console.log("failed");
-        // console.log(data);// *optional* callbacks on success or fail
-        accept(null, false); // second param takes boolean on whether or not to allow handshake
+        // allow the handshake, currentUser will not be set
+        accept(null, true); // second param takes boolean on whether or not to allow handshake
     },
     success: function(data, accept) {
-        // console.log("success socket.io auth");
-        // console.log(data);
         accept(null, true);
     }
 }));

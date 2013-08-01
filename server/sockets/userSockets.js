@@ -1,20 +1,21 @@
 var db = require('../models/db.js');
 
 module.exports = function() {
+
+    var sockets = {};
     
     var startListening = function(socket) {
-        socket.on('user:create', function(data) {
-            newUser = db.User(data);
-            newUser.save(function(err, user) {
-                if(err) {
-                    console.log(err);
-                    return socket.emit('error', err);
-                }
-                socket.emit('user:created', {user: user});
-            });
-        });
+        
+        sockets[socket.id] = socket;
+        
+        if(socket.handshake.user) {
+            socket.user = socket.handshake.user;
+            socket.emit('currentUser', {user: socket.user.sanitize()});
+        }
     };
+    
     var stopListening = function(socket) {
+        delete sockets[socket.id];
     };
     
     return {

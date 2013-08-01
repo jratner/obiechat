@@ -20,7 +20,6 @@ module.exports = function(app) {
     }
 
     passport.serializeUser(function(user, done) {
-        console.log('serializing ', user);
         done(null, user.id);
     });
 
@@ -39,6 +38,6 @@ module.exports = function(app) {
     app.get('/auth/google', passport.authenticate('google'));
     app.get('/auth/google/return', passport.authenticate('google', { 
         successRedirect: '/',
-        failureRedirect: '/signin'
+        failureRedirect: '/'
     }));
 };

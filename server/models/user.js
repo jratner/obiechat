@@ -7,23 +7,39 @@ module.exports = function(db) {
         firstName: String,
         lastName: String,
         nickName: String,
+        displayName: String,
         openId: String,
         anonName: String,
-	createdDate: Date
+        email: String,
+	createdDate: Number
     }, {
 	methods: {
-        }
-    }, {
+            sanitize: function() {
+                return {
+                    firstName: this.firstName,
+                    lastName: this.lastName,
+                    id: this.id,
+                    displayName: this.displayName
+                };
+            }
+        },
 	validations: {
             firstName: orm.validators.notEmptyString('User must have a first name'),
             lastName: orm.validators.notEmptyString('User must have a last name'),
             openId: orm.validators.notEmptyString('User must have a google id')
-	}
-    }, {
+	},
         hooks: {
-            beforeCreate: function(next) {
+            beforeCreate: function() {
+                console.log('before create');
                 this.createdDate = Date.now();
-                return next();
+            },
+            beforeValidation: function() {
+                console.log('before validation');
+                this.displayName = this.firstName + " ";
+                if (this.nickName) {
+                    this.displayName = this.displayName + "'" + this.nickName + "' ";
+                }
+                this.displayName = this.displayName + this.lastName;
             }
         }
     });
@@ -50,8 +66,8 @@ module.exports = function(db) {
             }
             var userFields = {
                 openId: openId,
-                firstname: profile.name.familyName,
-                lastname: profile.name.givenName,
+                firstName: profile.name.familyName,
+                lastName: profile.name.givenName,
                 email: profile.emails[0].value
             };
             user = User(userFields);
