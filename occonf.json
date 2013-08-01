@@ -1,3 +1,14 @@
 {
-    "pageSize": "10"
+    "development": true,
+
+    "port": 3000,
+
+    "domainName": "www.obiechat.com",
+    
+    "session" : {
+        "secret": "mahballz",
+        "key": "oc_instance.sid"
+    },
+    
+    "pageSize": 10
 }
