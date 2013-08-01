@@ -9,7 +9,6 @@ module.exports = function(db) {
         nickName: String,
         displayName: String,
         openId: String,
-        anonName: String,
         email: String,
 	createdDate: Number
     }, {
@@ -19,7 +18,8 @@ module.exports = function(db) {
                     firstName: this.firstName,
                     lastName: this.lastName,
                     id: this.id,
-                    displayName: this.displayName
+                    displayName: this.displayName,
+                    anonName: User.generateAnonName()
                 };
             }
         },
@@ -66,8 +66,8 @@ module.exports = function(db) {
             }
             var userFields = {
                 openId: openId,
-                firstName: profile.name.familyName,
-                lastName: profile.name.givenName,
+                lastName: profile.name.familyName,
+                firstName: profile.name.givenName,
                 email: profile.emails[0].value
             };
             user = User(userFields);
@@ -79,6 +79,16 @@ module.exports = function(db) {
                 cb(null, user);
             });
         });
+    };
+
+    var acceptableWords = ['junk', 'cow', 'beer', 'fanatic', 'zealot', 'tree'];
+    function genNum(tenpower) {
+        return Math.floor(Math.random() * Math.pow(10, tenpower));
+    }
+
+    User.generateAnonName = function() {
+        var wordex = Math.floor(Math.random()*100) % acceptableWords.length;
+        return acceptableWords[wordex] + genNum(4);
     };
 
     return User;
