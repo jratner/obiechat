@@ -19,7 +19,10 @@
 	"orm": "*",
 	"orm-paging": "*",
 	"socket.io": "*",
+        "connect": "*",
+        "cookie": "*",
         "passport": "*",
-        "passport-google": "*"
+        "passport-google": "*",
+        "passport.socketio": "*"
     }
 }

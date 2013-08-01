@@ -1,12 +1,10 @@
-module.exports = function(io, app) {
+module.exports = function(io) {
     var messageSockets = require('./messageSockets.js')();
     var topicSockets = require('./topicSockets.js')();
-    var userSockets = require('./userSockets.js')(app);
+    var userSockets = require('./userSockets.js')();
+
     
     io.sockets.on('connection', function(socket) {
-        console.log('we have a connection');
-        socket.emit('init', {data: 'hello from obiechat!'});
-        
         messageSockets.startListening(socket);
         topicSockets.startListening(socket);
         userSockets.startListening(socket);
