@@ -58,11 +58,11 @@ function createUsers(cb) {
 
     function createUser(cb2) {
         var user = new User({
-            firstName: randomString(5),
-            lastName: randomString(8),
-            nickName: randomString(4),
-            openId: randomString(8),
-            email: randomString(8)
+            firstName: 'first' + randomString(1),
+            lastName: 'last' + randomString(1),
+            nickName: 'nick' + randomString(1),
+            openId: 'google' + randomString(1),
+            email: randomString(1) + '@fake.com'
         });
         user.save(function(err, user) {
             if (err) cb2(err);
@@ -88,7 +88,7 @@ function createTopics(cb) {
 
     function createTopic(type, cb2) {
         var topic = new Topic({
-            name: randomString(10),
+            name: 'Topic ' + randomString(3),
             type: type
         });
         if (type == 'owned') {
@@ -138,7 +138,7 @@ function createMessages(cb) {
     function createMessage(cb2) {
         var message = new Message({
             topicId: topics[topicIndex].id,
-            body: randomString(40),
+            body: 'message ' + randomString(6),
             authorId: users[userIndex].id
         });
         message.save(function(err, message) {
@@ -164,16 +164,20 @@ function createMessages(cb) {
     createMessageLoop();
 }
 
-// maybe make this more intelligent (use real words)?
-function randomString(length, spaces) {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    if (spaces) {
-        possible += '    '; // add a few so spaces are likely
-    }
 
-    for( var i=0; i < length; i++ )
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
+function randomString(length) {
+    var text = "";
+
+    var words = ["the","of","and","a","to","in","is","you","that","it","he","was","for","on","are","as","with","his","they","I","at","be","this","have","from","or","one","had","by","word","but","not","what","all","were","we","when","your","can","said","there","use","an","each","which","she","do","how","their","if","will","up","other","about","out","many","then","them","these","so","some","her","would","make","like","him","into","time","has","look","two","more","write","go","see","number","no","way","could","people","my","than","first","water","been","call","who","oil","its","now","find","long","down","day","did","get","come","made","may","part"];
+    
+    for( var i=0; i < length; i++ ){
+        if (i == 0) {
+            text += words[Math.floor(Math.random()*100)];
+        } else {
+            text += ' ' + words[Math.floor(Math.random()*100)];
+        }
+        
+    }
 
     return text;
 }
@@ -244,8 +248,3 @@ function wipeDb(cb) {
         });
     });
 }
-
-
-
-
-
