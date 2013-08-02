@@ -1,6 +1,5 @@
-var _ = require('underscore');
 var db = require('./server/models/db.js');
-var done = 0;
+
 
 var messageTable = function(next) {
     db.Message.drop(function(err) {
