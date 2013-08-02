@@ -1,0 +1,44 @@
+.headerView {
+    width: 100%;
+    height: 100px;
+    background-color: @red;
+    color: @yellow;
+
+    .logo {
+        float: left;
+        margin-left: 40px;
+        font-size: 32px;
+    }
+
+    .userInfo {
+        float: right;
+        margin-top: 15px;
+        margin-right: 60px;
+        font-size: 26px;
+
+        .explain {
+            float: left;
+            color: @gray;
+            margin-right: 60px;
+        }
+        
+        .displayName {
+            float: left;
+            margin-right: 40px;
+        }
+        
+        .anonName {
+            float: left;
+        }
+
+        .signinLink {
+            color: @yellow;
+            text-decoration: none;
+            
+            &:hover {
+                color: @white;
+            }
+        }
+    }
+    
+}

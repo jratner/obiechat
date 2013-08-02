@@ -1,4 +1,4 @@
-define(['oc', 'jquery', 'underscore', 'backbone', 'hbs!templates/userAccount'],
+define(['oc', 'jquery', 'underscore', 'backbone', 'hbs!templates/header'],
 function(oc, $, _, Backbone, template) {
     return Backbone.View.extend({
         events: {

@@ -1,8 +1,42 @@
-#main {
+body {
+  margin: 0;
+}
+body #main {
   color: #111111;
 }
-.userAccountContainer {
-  background-color: #ff0000;
+.headerView {
+  width: 100%;
   height: 100px;
-  width: 200px;
+  background-color: #ff0000;
+  color: #ffff00;
+}
+.headerView .logo {
+  float: left;
+  margin-left: 40px;
+  font-size: 32px;
+}
+.headerView .userInfo {
+  float: right;
+  margin-top: 15px;
+  margin-right: 60px;
+  font-size: 26px;
+}
+.headerView .userInfo .explain {
+  float: left;
+  color: #555555;
+  margin-right: 60px;
+}
+.headerView .userInfo .displayName {
+  float: left;
+  margin-right: 40px;
+}
+.headerView .userInfo .anonName {
+  float: left;
+}
+.headerView .userInfo .signinLink {
+  color: #ffff00;
+  text-decoration: none;
+}
+.headerView .userInfo .signinLink:hover {
+  color: #ffffff;
 }

@@ -1,0 +1,18 @@
+<div class="headerView">
+  <h1 class="logo">obiechat</h1>
+  <div class="userInfo">
+    {{#if user}}
+      <div class="explain">
+        Using as: 
+      </div>
+      <div class="displayName">
+        {{ displayName }}
+      </div>
+      <div class="anonName">
+        {{ anonName }}
+      </div>
+    {{ else }}
+      <a class="signinLink" href="/auth/google" data-pushstate=true data-bypass=true>Sign In With Google</a>
+    {{/if}}
+  </div>
+</div>
