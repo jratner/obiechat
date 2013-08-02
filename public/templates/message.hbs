@@ -1,5 +1,11 @@
-<div class="messageContainer">
+<div class="message">
+  <div class="messageAuthor">
+    {{ authorName }}
+  </div>
   <div class="messageBody">
-    {{message.body}}
+    {{ body }}
+  </div>
+  <div class="dateSent">
+    {{ createdDate }}
   </div>
 </div>

@@ -99,7 +99,7 @@ function createTopics(cb) {
             if (err) cb2(err);
             console.log('Topic created: ', topic.id, topic.name);
             topics.push({id: topic.id, name: topic.name});
-            types[topic]++;
+            types[type]++;
             cb2();
         });
     }
@@ -116,6 +116,7 @@ function createTopics(cb) {
                 ret = type;
             }
         });
+
         return ret;
     }
     
