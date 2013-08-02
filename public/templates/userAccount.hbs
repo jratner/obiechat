@@ -2,7 +2,7 @@
   {{#if user}}
     <div class="userInfo">
       <div class="displayName">
-        {{ displayname }}
+        {{ displayName }}
       </div>
       <div class="name">
         {{ firstName }}{{#if nickName}}{{nickName}}{{/if}}{{ lastName }}
@@ -10,8 +10,8 @@
     </div>
     <div class="userActions">
     </div>
-  {{else}}
-    <a class="signinLink" href="signin" data-pushstate=true>Sign In</a>
+  {{ else }}
+    <a class="signinLink" href="/auth/google" data-pushstate=true data-bypass=true>Sign In With Google</a>
     <div>test</div>
   {{/if}}
 </div>

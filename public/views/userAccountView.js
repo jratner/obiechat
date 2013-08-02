@@ -5,15 +5,15 @@ function(oc, $, _, Backbone, template) {
         },
         
         initialize: function() {
+            this.listenTo(this.model, 'change', this.render);
         },
 
         render: function() {
-            $(this.el).html(template({user: this.model}));
-        },
-
-        signinEvent: function(e) {
-            console.log('in here');
-            //Backbone.history.navigate('signin', true);
+            var user = {};
+            if (this.model.id) {
+                user = this.model.templateReady();
+            }
+            $(this.el).html(template(user));
         }
     });
 });
