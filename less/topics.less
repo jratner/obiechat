@@ -1,0 +1,34 @@
+.topicInteractArea {
+    position: absolute;
+    top: 100px;
+    left: 40px;
+    background-color: @lightgray;
+    max-height: 600px;
+    
+    .topicPreviews {
+        float: left;
+        width: 200px;
+        max-height: 600px;
+        overflow: scroll;
+
+        .topicPreview {
+            border: solid @yellow 1px;
+
+            .name {
+                font-weight: bold;
+            }
+
+            .type {
+                
+            }
+        }
+    }
+
+    .topicViewHolder {
+        min-width: 800px;
+        max-height: 600px;
+        float: left;
+        border: solid @red 1px;
+        overflow: scroll;
+    }
+}

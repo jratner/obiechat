@@ -40,3 +40,29 @@ body #main {
 .headerView .userInfo .signinLink:hover {
   color: #ffffff;
 }
+.topicInteractArea {
+  position: absolute;
+  top: 100px;
+  left: 40px;
+  background-color: #dddddd;
+  max-height: 600px;
+}
+.topicInteractArea .topicPreviews {
+  float: left;
+  width: 200px;
+  max-height: 600px;
+  overflow: scroll;
+}
+.topicInteractArea .topicPreviews .topicPreview {
+  border: solid #ffff00 1px;
+}
+.topicInteractArea .topicPreviews .topicPreview .name {
+  font-weight: bold;
+}
+.topicInteractArea .topicViewHolder {
+  min-width: 800px;
+  max-height: 600px;
+  float: left;
+  border: solid #ff0000 1px;
+  overflow: scroll;
+}
