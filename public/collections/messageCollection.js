@@ -4,7 +4,7 @@ define(['oc', 'backbone', 'models/messageModel'], function(oc, Backbone, Message
         initialize: function(topicId) {
             var self = this;
             oc.socket.emit('getAndWatchTopicMessages', {topicId: topicId, user: oc.currentUser});
-            oc.socket.on(topicId+'messages', function(response) {
+            oc.socket.on('modifyTopic'+topicId, function(response) {
                 self.set(response.messages);
                 self.trigger('received');
             });

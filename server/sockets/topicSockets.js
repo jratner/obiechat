@@ -8,6 +8,29 @@ module.exports = function() {
     var startListening = function(socket) {
         sockets[socket.id] = socket;
 
+        socket.on('getAndWatchTopicMessages', function(data) {
+            Topic.findById(data.topicId, function(err, topic) {
+                // use data.user to check if owned...
+                if(err) {
+                    console.log(err);
+                    return socket.emit('error', err);
+                }
+                if(!topic) {
+                    console.log('no topic found');
+                    return socket.emit('err', new Error('no topic found with id ' + data.topicId));
+                }
+                
+                topic.getMessages(function(err, messages) {
+                    if(err) {
+                        console.log(err);
+                        return socket.emit('error', err);
+                    }
+                    socket.emit('modifyTopic'+topic.id, {topic: topic, messages: messages});
+                    //watchTopic(topic.id, socket));
+                });
+            });
+        });
+
         // create a new topic
         socket.on('topic:create', function(data) {
             newTopic = db.Topic(data);
@@ -40,16 +63,6 @@ module.exports = function() {
 
         // open a topic for a socket
         socket.on('topic:open', function(data) {
-            Topic.findById(data.id, function(err, topic) {
-                var response = topic;
-                if(err) {
-                    console.log(err);
-                    return socket.emit('error', err);
-                }
-                socket.emit('topic:opened', {topic: topic});
-                // this looks wrong...
-                events.on('topic'+topic.id, changeTopic(socket));
-            });
         });
 
         // close a topic for a socket

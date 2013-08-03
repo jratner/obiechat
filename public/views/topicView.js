@@ -5,14 +5,16 @@ function(oc, $, _, Backbone, MessageView, PostView, template) {
         },
         initialize: function() {
             this.model.getMessagesAndWatch();
+            this.collection = this.model.messages;
             this.listenTo(this.model, 'change', this.render);
-            this.listenTo(this.model.messages, 'change', this.renderMessages);
+            this.listenTo(this.collection, 'received', this.renderMessages);
             this.messageViews = [];
         },
         renderMessages: function() {
-            _.each(this.model.get('messages'), function(message) {
+            var self = this;
+            _.each(this.collection.models, function(message) {
                 var messageView = new MessageView({model: message, el: $('.messageArea')});
-                this.messageViews.push(messageView);
+                self.messageViews.push(messageView);
                 messageView.render();
             });
         },

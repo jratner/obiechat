@@ -19,7 +19,7 @@ module.exports = (function() {
 
     db.use(paging);
     var Message = require("./message.js")(db);
-    var Topic = require("./topic.js")(db);
+    var Topic = require("./topic.js")(db, Message);
     var User = require("./user.js")(db);
     
     return {
