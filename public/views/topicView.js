@@ -21,7 +21,7 @@ function(oc, $, _, Backbone, PostView, PostCreateView, template) {
         render: function() {
             $(this.el).html(template(this.model.templateReady()));
             this.renderPosts();
-            this.replyView = new PostCreateView({el: $(".postReplyArea")});
+            this.replyView = new PostCreateView({el: $(".postReplyArea"), topicId: this.model.id});
             this.replyView.render();
         },
         close: function() {

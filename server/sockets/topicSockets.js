@@ -4,6 +4,7 @@ var _ = require('underscore');
 
 module.exports = function() {
     var Topic = db.Topic;
+    var Post = db.Post;
     var self = this;
     this.events = new EventEmitter();
     
@@ -47,6 +48,18 @@ module.exports = function() {
         socket.on('topic:close', function(data) {
             stopWatchingTopic(socket.watching, data.topicId);
         });
+
+        socket.on('topic:newPost', function(data) {
+            post = new Post(data.post);
+            post.save(function(err, post) {
+                if (err) {
+                    console.log(err);
+                    return socket.emit('error', err);
+                }
+                self.events.emit('modifyTopic'+post.topicId);
+            });
+        });
+
 
         socket.on('topic:create', function(data) {
             newTopic = db.Topic(data);

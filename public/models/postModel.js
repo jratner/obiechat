@@ -7,6 +7,9 @@ define(['oc', 'underscore', 'backbone'], function(oc, _,Backbone) {
             });
             ret.post = true;
             return ret;
+        },
+        saveNew: function() {
+            oc.socket.emit('topic:newPost', {post: this});
         }
     });
     return oc.Models.PostModel;
