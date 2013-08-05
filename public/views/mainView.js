@@ -14,7 +14,7 @@ function(oc, $, Backbone, template, TopicCollection, TopicListView, UserModel, H
             $(this.el).html(template());
             this.headerView = new HeaderView({model: oc.currentUser, el: $('.pageHeader')});
             this.headerView.render();
-            oc.Views.contentView = this.topicListView = new TopicListView({collection: this.topicList, el: $('#content')});
+            this.topicListView = new TopicListView({collection: this.topicList, el: $('#content')});
             this.topicListView.render();
         }
     });

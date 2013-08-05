@@ -1,0 +1,95 @@
+.topicInteractArea {
+    position: absolute;
+    top: 80px;
+    left: 40px;
+    background-color: @lightgray;
+    max-height: 600px;
+    
+    .topicPreviews {
+        float: left;
+        width: 200px;
+        max-height: 600px;
+        overflow: scroll;
+
+        .topicPreview {
+            border: solid @yellow 1px;
+
+            &.selected {
+                background-color: #888888;
+            }
+
+            .name {
+                font-weight: bold;
+            }
+
+            .type {
+                
+            }
+        }
+    }
+
+    .topicViewHolder {
+        min-width: 800px;
+        max-height: 600px;
+        float: left;
+        border: solid @red 1px;
+        overflow: scroll;
+
+        .topic {
+
+            .topicHeader {
+                font-size: @header-font-size;
+                background-color: @red;
+
+                .topicName {
+                    margin-right: 10px;
+                    display: inline-block;
+                }
+                
+                .type {
+                    display: inline-block;
+                }
+
+                .ownerName {
+                    display: inline-block;
+                }
+            }
+
+            .postArea {
+                position: relative;
+                
+                .post {
+                    border: solid @black 1px;
+                    
+                    &.selfPost {
+                        text-align: right;
+                    }
+
+                    .postAuthor {
+                        font-weight: bold;
+                    }
+
+                    .postBody {
+                    }
+
+                    .dateSent {
+                        font-size: @small-font
+                    }
+                }
+            }
+            
+            .postCreateArea {
+                position: relative;
+                text-align: right;
+
+                .textArea {
+                    float: right;
+                }
+                
+                .submitArea {
+                    float: right;
+                }
+            }
+        }
+    }
+}

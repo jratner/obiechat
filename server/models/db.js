@@ -18,12 +18,12 @@ module.exports = (function() {
     });
 
     db.use(paging);
-    var Message = require("./message.js")(db);
-    var Topic = require("./topic.js")(db);
+    var Post = require("./post.js")(db);
+    var Topic = require("./topic.js")(db, Post);
     var User = require("./user.js")(db);
     
     return {
-        Message: Message,
+        Post: Post,
         Topic: Topic,
         User: User
     };
