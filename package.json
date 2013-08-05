@@ -23,6 +23,7 @@
         "cookie": "*",
         "passport": "*",
         "passport-google": "*",
-        "passport.socketio": "*"
+        "passport.socketio": "*",
+        "connect-mysql-session": "*"
     }
 }

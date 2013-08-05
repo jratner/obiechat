@@ -1,12 +1,15 @@
 var orm = require("orm");
 var paging = require("orm-paging");
+var occonf = require('../../occonf.json');
+
+var dbOptions = occonf.db;
 
 var opts = {
-    database: "obiechat",
+    database: dbOptions.name,
     protocol: "mysql",
-    host: "localhost",
-    user: "obiechatServer",
-    password: "obietalk" // teehee
+    host: dbOptions.host,
+    user: dbOptions.user,
+    password: dbOptions.password // teehee
 };
 var db = orm.connect(opts);
 

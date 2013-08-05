@@ -9,6 +9,16 @@
         "secret": "mahballz",
         "key": "oc_instance.sid"
     },
+
+    "db" : {
+        "host": "localhost",
+        "name": "obiechat",
+        "user": "obiechatServer",
+        "password": "obietalk"
+    },
+
+    "sessionCheckInterval": 1200000,
+    "sessionExpireAfter": 345600000,
     
     "pageSize": 10
 }

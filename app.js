@@ -5,10 +5,16 @@ var io = require('socket.io').listen(server);
 var occonf = require("./occonf.json");
 var port = occonf.port || 80;
 var passportSocketIo = require("passport.socketio");
-var sessionStore = new express.session.MemoryStore();
 var cookieParser = require('connect').cookieParser;
 var sessionPrefs = occonf.session;
+var MySQLSessionStore = require('connect-mysql-session')(express);
+var occonf = require("./occonf.json");
 
+var dbFields = occonf.db;
+var sessionStore = new MySQLSessionStore(dbFields.name, dbFields.user, dbFields.password, {
+    defaultExpiration: occonf.sessionExpireAfter,
+    checkExpirationInterval: occonf.sessionCheckInterval
+});
 
 app.configure(function(){
     app.use('/media', express.static(__dirname + '/media'));
@@ -16,6 +22,7 @@ app.configure(function(){
     app.use(express.static(__dirname + '/public/templates'));
     app.use(express.cookieParser());
     app.use(express.session({store: sessionStore, secret: sessionPrefs.secret, key: sessionPrefs.key}));
+    app.use(app.router);
         
     if (occonf.development) {
         app.use(express.logger());
