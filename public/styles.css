@@ -6,7 +6,7 @@ body #main {
 }
 .headerView {
   width: 100%;
-  height: 100px;
+  height: 72px;
   background-color: #ff0000;
   color: #ffff00;
 }
@@ -39,4 +39,72 @@ body #main {
 }
 .headerView .userInfo .signinLink:hover {
   color: #ffffff;
+}
+.topicInteractArea {
+  position: absolute;
+  top: 80px;
+  left: 40px;
+  background-color: #dddddd;
+  max-height: 600px;
+}
+.topicInteractArea .topicPreviews {
+  float: left;
+  width: 200px;
+  max-height: 600px;
+  overflow: scroll;
+}
+.topicInteractArea .topicPreviews .topicPreview {
+  border: solid #ffff00 1px;
+}
+.topicInteractArea .topicPreviews .topicPreview.selected {
+  background-color: #888888;
+}
+.topicInteractArea .topicPreviews .topicPreview .name {
+  font-weight: bold;
+}
+.topicInteractArea .topicViewHolder {
+  min-width: 800px;
+  max-height: 600px;
+  float: left;
+  border: solid #ff0000 1px;
+  overflow: scroll;
+}
+.topicInteractArea .topicViewHolder .topic .topicHeader {
+  font-size: 20px;
+  background-color: #ff0000;
+}
+.topicInteractArea .topicViewHolder .topic .topicHeader .topicName {
+  margin-right: 10px;
+  display: inline-block;
+}
+.topicInteractArea .topicViewHolder .topic .topicHeader .type {
+  display: inline-block;
+}
+.topicInteractArea .topicViewHolder .topic .topicHeader .ownerName {
+  display: inline-block;
+}
+.topicInteractArea .topicViewHolder .topic .postArea {
+  position: relative;
+}
+.topicInteractArea .topicViewHolder .topic .postArea .post {
+  border: solid #111111 1px;
+}
+.topicInteractArea .topicViewHolder .topic .postArea .post.selfPost {
+  text-align: right;
+}
+.topicInteractArea .topicViewHolder .topic .postArea .post .postAuthor {
+  font-weight: bold;
+}
+.topicInteractArea .topicViewHolder .topic .postArea .post .dateSent {
+  font-size: 9px;
+}
+.topicInteractArea .topicViewHolder .topic .postCreateArea {
+  position: relative;
+  text-align: right;
+}
+.topicInteractArea .topicViewHolder .topic .postCreateArea .textArea {
+  float: right;
+}
+.topicInteractArea .topicViewHolder .topic .postCreateArea .submitArea {
+  float: right;
 }

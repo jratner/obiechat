@@ -1,18 +1,18 @@
 var db = require('./server/models/db.js');
 
 
-var messageTable = function(next) {
-    db.Message.drop(function(err) {
+var postTable = function(next) {
+    db.Post.drop(function(err) {
         if(err) {
             return next(err);
         }
-        console.log("table backing message model dropped");
+        console.log("table backing post model dropped");
         
-        db.Message.sync(function(err) {
+        db.Post.sync(function(err) {
             if(err) {
                 return next(err);
             }
-            console.log("created table backing message model");
+            console.log("created table backing post model");
             next();
         });
     });
@@ -51,7 +51,7 @@ var userTable = function(next) {
     });
 };
     
-messageTable(function(err) {
+postTable(function(err) {
     if (err) {
         console.log(err);
         process.exit();

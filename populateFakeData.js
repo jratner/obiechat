@@ -3,8 +3,8 @@ var db = require('./server/models/db.js');
 
 var wipe = true, large = true;
 
-var users = [], topics = [], messages = [];
-var userCount, topicCount, messagesPerTopic;
+var users = [], topics = [], posts = [];
+var userCount, topicCount, postsPerTopic;
 
 if (wipe) {
     wipeDb(function(err) {
@@ -24,11 +24,11 @@ function fillDb(large) {
     if (large) {
         userCount = 40;
         topicCount = 20;
-        messagesPerTopic = 20;
+        postsPerTopic = 20;
     } else {
         userCount = 20;
         topicCount = 15;
-        messagesPerTopic = 5;
+        postsPerTopic = 5;
     }
 
     createUsers(function(err) {
@@ -41,7 +41,7 @@ function fillDb(large) {
                 console.log(err);
                 process.exit();
             }
-            createMessages(function(err) {
+            createPosts(function(err) {
                 if(err) {
                     console.log(err);
                     process.exit();
@@ -58,11 +58,11 @@ function createUsers(cb) {
 
     function createUser(cb2) {
         var user = new User({
-            firstName: randomString(5),
-            lastName: randomString(8),
-            nickName: randomString(4),
-            openId: randomString(8),
-            email: randomString(8)
+            firstName: 'first' + randomString(1),
+            lastName: 'last' + randomString(1),
+            nickName: 'nick' + randomString(1),
+            openId: 'google' + randomString(1),
+            email: randomString(1) + '@fake.com'
         });
         user.save(function(err, user) {
             if (err) cb2(err);
@@ -88,7 +88,7 @@ function createTopics(cb) {
 
     function createTopic(type, cb2) {
         var topic = new Topic({
-            name: randomString(10),
+            name: 'Topic ' + randomString(3),
             type: type
         });
         if (type == 'owned') {
@@ -99,7 +99,7 @@ function createTopics(cb) {
             if (err) cb2(err);
             console.log('Topic created: ', topic.id, topic.name);
             topics.push({id: topic.id, name: topic.name});
-            types[topic]++;
+            types[type]++;
             cb2();
         });
     }
@@ -116,6 +116,7 @@ function createTopics(cb) {
                 ret = type;
             }
         });
+
         return ret;
     }
     
@@ -128,69 +129,73 @@ function createTopics(cb) {
     createTopicLoop();
 }
 
-function createMessages(cb) {
+function createPosts(cb) {
     
-    var Message = db.Message;
+    var Post = db.Post;
     var topicIndex = 0;
     var curtopiccount = 0;
     var userIndex = 0;
 
-    function createMessage(cb2) {
-        var message = new Message({
+    function createPost(cb2) {
+        var post = new Post({
             topicId: topics[topicIndex].id,
-            body: randomString(40),
+            body: 'post ' + randomString(6),
             authorId: users[userIndex].id
         });
-        message.save(function(err, message) {
+        post.save(function(err, post) {
             if (err) cb2(err);
-            console.log('Message created: ', message.id, 'topic: ', message.topicId);
-            messages.push({id: message.id, topicId: message.topicId});
+            console.log('Post created: ', post.id, 'topic: ', post.topicId);
+            posts.push({id: post.id, topicId: post.topicId});
             userIndex = (userIndex + 1) % users.length;
             curtopiccount++;
             cb2();
         });
     }
 
-    function createMessageLoop(err) {
+    function createPostLoop(err) {
         if (err) return cb(err);
-        if (messages.length >= messagesPerTopic*topics.length) return cb();
-        if (curtopiccount > messagesPerTopic) {
+        if (posts.length >= postsPerTopic*topics.length) return cb();
+        if (curtopiccount > postsPerTopic) {
             curtopiccount = 0;
             topicIndex = (topicIndex + 1) % topics.length;
         }
-        createMessage(createMessageLoop);
+        createPost(createPostLoop);
     }
 
-    createMessageLoop();
+    createPostLoop();
 }
 
-// maybe make this more intelligent (use real words)?
-function randomString(length, spaces) {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    if (spaces) {
-        possible += '    '; // add a few so spaces are likely
-    }
 
-    for( var i=0; i < length; i++ )
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
+function randomString(length) {
+    var text = "";
+
+    var words = ["the","of","and","a","to","in","is","you","that","it","he","was","for","on","are","as","with","his","they","I","at","be","this","have","from","or","one","had","by","word","but","not","what","all","were","we","when","your","can","said","there","use","an","each","which","she","do","how","their","if","will","up","other","about","out","many","then","them","these","so","some","her","would","make","like","him","into","time","has","look","two","more","write","go","see","number","no","way","could","people","my","than","first","water","been","call","who","oil","its","now","find","long","down","day","did","get","come","made","may","part"];
+    
+    for( var i=0; i < length; i++ ){
+        if (i == 0) {
+            text += words[Math.floor(Math.random()*100)];
+        } else {
+            text += ' ' + words[Math.floor(Math.random()*100)];
+        }
+        
+    }
 
     return text;
 }
 
 
 function wipeDb(cb) {
-    var messageTable = function(next) {
-        db.Message.drop(function(err) {
+    var postTable = function(next) {
+        db.Post.drop(function(err) {
             if(err) {
                 return next(err);
             }
-            console.log("messages dropped");
-            db.Message.sync(function(err) {
+            console.log("posts dropped");
+            db.Post.sync(function(err) {
                 if(err) {
                     return next(err);
                 }
-                console.log("messages synced");
+                console.log("posts synced");
                 next();
             });
         });
@@ -227,7 +232,7 @@ function wipeDb(cb) {
         });
     };
     
-    messageTable(function(err) {
+    postTable(function(err) {
         if (err) {
             cb(err);
         }
@@ -244,8 +249,3 @@ function wipeDb(cb) {
         });
     });
 }
-
-
-
-
-

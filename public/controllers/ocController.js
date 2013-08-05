@@ -5,10 +5,10 @@ define(['oc', 'backbone'], function(oc, Backbone) {
         },
 
         defaultRoute: function() {
-            require(['views/topicListView'], function(TopicListView) {
-                oc.Views.setContentView(TopicListView);
-                oc.Views.contentView.render();
-            });
+//            require(['views/topicListView'], function(TopicListView) {
+  //              oc.Views.setContentView(TopicListView);
+    //            oc.Views.contentView.render();
+      //      });
         }
     });
     return oc.Controllers.ocController;
