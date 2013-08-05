@@ -1,10 +1,11 @@
-<div class="postArea">
-  <form id="topicPostForm">
-    <div class="textArea">
-      <input type="text" placeholder="Reply" name="body">
-    </div>
-    <div class="submitArea">
-      <input type="submit" value="submit">
-    </div>
-  </form>
+<div class="post">
+  <div class="postAuthor">
+    {{ authorName }}
+  </div>
+  <div class="postBody">
+    {{ body }}
+  </div>
+  <div class="dateSent">
+    {{ createdDate }}
+  </div>
 </div>

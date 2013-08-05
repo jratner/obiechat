@@ -2,7 +2,7 @@ var orm = require("orm");
 var occonf = require("../../occonf.json");
 
 
-module.exports = function(db, Message) {
+module.exports = function(db, Post) {
     var Topic = db.define("topic", {
         name: String,
 	createdDate: Number,
@@ -11,9 +11,9 @@ module.exports = function(db, Message) {
 	authorId: String
     }, {
 	methods: {
-            getMessages: function(cb) {
-                Message.find({topicId: this.id}, "createdDate", function(err, messages) {
-                    cb(err,messages);
+            getPosts: function(cb) {
+                Post.find({topicId: this.id}, "createdDate", function(err, posts) {
+                    cb(err,posts);
                 });
             }
         },
@@ -32,12 +32,30 @@ module.exports = function(db, Message) {
     
     Topic.findById = function(id, cb) {
         this.find({id: id}, function(err, topics) {
-            if (topics && topics[0]) {
+            if (topics && topics.length) {
                 return cb(null, topics[0]);
             }
             return cb(err);
         });
-        
+    };
+
+    Topic.getWithPosts = function(id, cb) {
+        this.find({id: id}, function(err, topics) {
+            if (err) {
+                return cb(err);
+            }
+            if (!(topics && topics.length)) {
+                return cb(err);
+            }
+            var topic = topics[0];
+            topic.getPosts(function(err, posts) {
+                if (err) {
+                    cb(err);
+                }
+                topic.posts = posts;
+                cb(null, topic);
+            });
+        });
     };
 
     Topic.getHomePage = function(page, cb) {

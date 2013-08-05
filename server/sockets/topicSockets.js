@@ -1,37 +1,53 @@
 var db = require('../models/db.js');
-var events = require('events').EventEmitter;
+var EventEmitter = require('events').EventEmitter;
+var _ = require('underscore');
 
 module.exports = function() {
-    var sockets = {};
     var Topic = db.Topic;
+    var self = this;
+    this.events = new EventEmitter();
+    
+    var stopWatchingTopic = function(watching, topicId) {
+        self.events.removeListener('modifyTopic'+ topicId, watching[topicId]);
+        delete watching[topicId];
+    };
+
+    var stopListening = function(socket) {
+        _.each(socket.watching, function(content, id) {
+            stopWatchingTopic(socket.watching, id);
+        });
+        socket.watching = {};
+    };
     
     var startListening = function(socket) {
-        sockets[socket.id] = socket;
+        socket.watching = {};
 
-        socket.on('getAndWatchTopicMessages', function(data) {
-            Topic.findById(data.topicId, function(err, topic) {
-                // use data.user to check if owned...
-                if(err) {
-                    console.log(err);
-                    return socket.emit('error', err);
-                }
-                if(!topic) {
-                    console.log('no topic found');
-                    return socket.emit('err', new Error('no topic found with id ' + data.topicId));
-                }
-                
-                topic.getMessages(function(err, messages) {
-                    if(err) {
+        socket.on('getAndWatchTopicPosts', function(data) {
+            var id = data.topicId;
+
+            function changedTopic() {
+                Topic.getWithPosts(id, function(err, topic) {
+                     if(err) {
                         console.log(err);
                         return socket.emit('error', err);
                     }
-                    socket.emit('modifyTopic'+topic.id, {topic: topic, messages: messages});
-                    //watchTopic(topic.id, socket));
+                    if(!topic) {
+                        console.log('no topic found');
+                        return socket.emit('err', new Error('no topic found with id ' + id));
+                    }
+                    socket.emit('modifyTopic'+id, {topic: topic});
                 });
-            });
+            }
+
+            changedTopic();
+            socket.watching[data.topicId] = changedTopic;
+            self.events.on('modifyTopic'+data.topicId, changedTopic);
         });
 
-        // create a new topic
+        socket.on('topic:close', function(data) {
+            stopWatchingTopic(socket.watching, data.topicId);
+        });
+
         socket.on('topic:create', function(data) {
             newTopic = db.Topic(data);
             newTopic.save(function(err, topic) {
@@ -41,33 +57,6 @@ module.exports = function() {
                 }
                 socket.emit('topic:created', {topic: topic});
             });
-        });
-
-        // delete a topic
-        socket.on('topic:delete', function(data) {
-            Topic.findById(data.id, function(err, topic) {
-                if(err) {
-                    console.log(err);
-                    socket.emit('error', err);
-                }
-                topic.remove(function(err) {
-                    if(err) {
-                        console.log(err);
-                        return socket.emit('error', err);
-                    }
-                    // stop sockets listening for changes to this topic
-                    socket.emit('topic:deleted', {topic: topic});
-                });
-            });
-        });
-
-        // open a topic for a socket
-        socket.on('topic:open', function(data) {
-        });
-
-        // close a topic for a socket
-        socket.on('topic:close', function(data) {
-            // just remove listeners for changes to topic for this socket
         });
 
         socket.on('topics:getMain', function(data) {
@@ -81,17 +70,7 @@ module.exports = function() {
         });
     };
 
-    var stopListening = function(socket) {
-        // close all node events associated with this socket
-        delete sockets[socket.id];
-    };
-                  
-    var changeTopic = function(socket) {
-        console.log('changed topic!');
-    };
-
     return {
-        sockets: sockets,
         startListening: startListening,
         stopListening: stopListening
     };

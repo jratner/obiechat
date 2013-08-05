@@ -2,15 +2,12 @@ define(['oc', 'jquery', 'underscore', 'backbone', 'hbs!templates/post'],
 function(oc, $, _, Backbone, template) {
     return Backbone.View.extend({
         events: {
-            'submit form': 'postMessage'
         },
-        postMessage: function(e) {
-            e.preventDefault();
-            var body = this.$('input[name=body]').val();
-            console.log('post: ', body);
+        initialize: function() {
+            this.listenTo(this.model, 'change', this.render);
         },
         render: function() {
-            $(this.el).html(template());
+            $(this.el).append(template(this.model.templateReady()));
         },
         close: function() {
             this.remove();

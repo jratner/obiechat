@@ -1,7 +1,7 @@
 var orm = require("orm");
 
 module.exports = function(db) {
-    return db.define("message", {
+    return db.define("post", {
 	topicId: String,
 	body: String,
 	createdDate: Number,

@@ -1,7 +1,7 @@
-define(['oc', 'underscore', 'backbone', 'collections/messageCollection'], function(oc, _,Backbone, MessageCollection) {
+define(['oc', 'underscore', 'backbone', 'collections/postCollection'], function(oc, _,Backbone, PostCollection) {
     oc.Models.TopicModel =  Backbone.Model.extend({
-        getMessagesAndWatch: function() {
-            this.messages = new MessageCollection(this.id);
+        getPostsAndWatch: function() {
+            this.posts = new PostCollection(this.id);
         },
         previewTemplateReady: function() {
             return {

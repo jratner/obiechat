@@ -3,8 +3,8 @@ var db = require('./server/models/db.js');
 
 var wipe = true, large = true;
 
-var users = [], topics = [], messages = [];
-var userCount, topicCount, messagesPerTopic;
+var users = [], topics = [], posts = [];
+var userCount, topicCount, postsPerTopic;
 
 if (wipe) {
     wipeDb(function(err) {
@@ -24,11 +24,11 @@ function fillDb(large) {
     if (large) {
         userCount = 40;
         topicCount = 20;
-        messagesPerTopic = 20;
+        postsPerTopic = 20;
     } else {
         userCount = 20;
         topicCount = 15;
-        messagesPerTopic = 5;
+        postsPerTopic = 5;
     }
 
     createUsers(function(err) {
@@ -41,7 +41,7 @@ function fillDb(large) {
                 console.log(err);
                 process.exit();
             }
-            createMessages(function(err) {
+            createPosts(function(err) {
                 if(err) {
                     console.log(err);
                     process.exit();
@@ -129,40 +129,40 @@ function createTopics(cb) {
     createTopicLoop();
 }
 
-function createMessages(cb) {
+function createPosts(cb) {
     
-    var Message = db.Message;
+    var Post = db.Post;
     var topicIndex = 0;
     var curtopiccount = 0;
     var userIndex = 0;
 
-    function createMessage(cb2) {
-        var message = new Message({
+    function createPost(cb2) {
+        var post = new Post({
             topicId: topics[topicIndex].id,
-            body: 'message ' + randomString(6),
+            body: 'post ' + randomString(6),
             authorId: users[userIndex].id
         });
-        message.save(function(err, message) {
+        post.save(function(err, post) {
             if (err) cb2(err);
-            console.log('Message created: ', message.id, 'topic: ', message.topicId);
-            messages.push({id: message.id, topicId: message.topicId});
+            console.log('Post created: ', post.id, 'topic: ', post.topicId);
+            posts.push({id: post.id, topicId: post.topicId});
             userIndex = (userIndex + 1) % users.length;
             curtopiccount++;
             cb2();
         });
     }
 
-    function createMessageLoop(err) {
+    function createPostLoop(err) {
         if (err) return cb(err);
-        if (messages.length >= messagesPerTopic*topics.length) return cb();
-        if (curtopiccount > messagesPerTopic) {
+        if (posts.length >= postsPerTopic*topics.length) return cb();
+        if (curtopiccount > postsPerTopic) {
             curtopiccount = 0;
             topicIndex = (topicIndex + 1) % topics.length;
         }
-        createMessage(createMessageLoop);
+        createPost(createPostLoop);
     }
 
-    createMessageLoop();
+    createPostLoop();
 }
 
 
@@ -185,17 +185,17 @@ function randomString(length) {
 
 
 function wipeDb(cb) {
-    var messageTable = function(next) {
-        db.Message.drop(function(err) {
+    var postTable = function(next) {
+        db.Post.drop(function(err) {
             if(err) {
                 return next(err);
             }
-            console.log("messages dropped");
-            db.Message.sync(function(err) {
+            console.log("posts dropped");
+            db.Post.sync(function(err) {
                 if(err) {
                     return next(err);
                 }
-                console.log("messages synced");
+                console.log("posts synced");
                 next();
             });
         });
@@ -232,7 +232,7 @@ function wipeDb(cb) {
         });
     };
     
-    messageTable(function(err) {
+    postTable(function(err) {
         if (err) {
             cb(err);
         }
