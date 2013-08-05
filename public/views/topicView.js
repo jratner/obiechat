@@ -8,20 +8,23 @@ function(oc, $, _, Backbone, PostView, PostCreateView, template) {
             this.collection = this.model.posts;
             this.listenTo(this.model, 'change', this.render);
             this.listenTo(this.collection, 'received', this.renderPosts);
-            this.postViews = [];
+            this.postViews = {};
         },
         renderPosts: function() {
             var self = this;
             _.each(this.collection.models, function(post) {
-                var postView = new PostView({model: post, el: $('.postArea')});
-                self.postViews.push(postView);
-                postView.render();
+                var postView;
+                if (!self.postViews[post.id]) {
+                    postView = new PostView({model: post, el: $('.postArea')});
+                    self.postViews[post.id] = postView;
+                    postView.render();
+                }
             });
         },
         render: function() {
             $(this.el).html(template(this.model.templateReady()));
             this.renderPosts();
-            this.replyView = new PostCreateView({el: $(".postReplyArea")});
+            this.replyView = new PostCreateView({el: $(".postReplyArea"), topicId: this.model.id});
             this.replyView.render();
         },
         close: function() {
