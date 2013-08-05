@@ -11,7 +11,6 @@ function(oc, $, _, Backbone, TopicPreviewView, TopicView, template) {
                 this.setTopic(this.collection.models[0]);                
             } else {
                 this.listenToOnce(this.collection, 'received', function() {
-                    console.log('received topics');
                     self.setTopic(self.collection.models[0]);
                 });
             }
