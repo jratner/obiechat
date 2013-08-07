@@ -41,8 +41,14 @@ function fillDb(large) {
                 console.log(err);
                 process.exit();
             }
-            console.log('Finished!');
-            process.exit();
+            createPosts(function(err) {
+                if(err) {
+                    console.log(err);
+                    process.exit();
+                }
+                console.log('Finished!');
+                process.exit();
+            });
         });
     });
 }
@@ -61,7 +67,7 @@ function createUsers(cb) {
         user.save(function(err, user) {
             if (err) cb2(err);
             console.log('User created: ', user.id, user.displayName);
-            users.push({id: user.id, displayName: user.displayName, anonName: user.anonName});
+            users.push({id: user.id, name: user.displayName});
             cb2();
         });
     }
@@ -77,7 +83,7 @@ function createUsers(cb) {
 
 function createTopics(cb) {
     var Topic = db.Topic;
-    var types = {anon: 0, named: 0, owned: 0};
+    var types = {anon: 0, exposed: 0, owned: 0};
     var userIndex = 0;
 
     function createTopic(type, cb2) {
@@ -91,10 +97,10 @@ function createTopics(cb) {
         }
         topic.save(function(err, topic) {
             if (err) cb2(err);
-            console.log('Topic created: ', topic.id, topic.name, topic.type);
+            console.log('Topic created: ', topic.id, topic.name);
             topics.push({id: topic.id, name: topic.name});
             types[type]++;
-            createPostsForTopic(topic, cb2);
+            cb2();
         });
     }
 
@@ -102,16 +108,15 @@ function createTopics(cb) {
         var least;
         var ret;
         _.each(types, function(count, type) {
-            if (!ret) {
+            if (!least) {
                 least = count;
                 ret = type;
             }
             if (count < least) {
                 ret = type;
-                console.log('switching to ', type);
             }
         });
-        console.log(ret);
+
         return ret;
     }
     
@@ -124,30 +129,18 @@ function createTopics(cb) {
     createTopicLoop();
 }
 
-function createPostsForTopic(topic, cb) {
+function createPosts(cb) {
+    
     var Post = db.Post;
-    var userIndex = 0;
+    var topicIndex = 0;
     var curtopiccount = 0;
+    var userIndex = 0;
 
     function createPost(cb2) {
-        var user = users[userIndex];
-        var userName = '';
-        if (topic.type == 'owned') {
-            if (curtopiccount === 0) {
-                userName = user.displayName;
-            }
-        } else {
-            if (topic.type == 'named') {
-                userName = user.displayName;
-            } else {
-                userName = user.anonName;
-            }
-        }
         var post = new Post({
-            topicId: topic.id,
+            topicId: topics[topicIndex].id,
             body: 'post ' + randomString(6),
-            authorId: user.id,
-            userName: userName
+            authorId: users[userIndex].id
         });
         post.save(function(err, post) {
             if (err) cb2(err);
@@ -158,24 +151,18 @@ function createPostsForTopic(topic, cb) {
             cb2();
         });
     }
-    
+
     function createPostLoop(err) {
         if (err) return cb(err);
-        if (curtopiccount >= postsPerTopic) return cb();
+        if (posts.length >= postsPerTopic*topics.length) return cb();
+        if (curtopiccount > postsPerTopic) {
+            curtopiccount = 0;
+            topicIndex = (topicIndex + 1) % topics.length;
+        }
         createPost(createPostLoop);
     }
 
     createPostLoop();
-
-}
-
-function createPosts(cb) {
-    
-
-    var curtopiccount = 0;
-
-
-
 }
 
 
