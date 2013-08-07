@@ -8,7 +8,7 @@ module.exports = function(io) {
         postSockets.startListening(socket);
         topicSockets.startListening(socket);
         userSockets.startListening(socket);
-        
+
         socket.on('disconnect', function() {
             postSockets.stopListening(this);
             topicSockets.stopListening(this);
