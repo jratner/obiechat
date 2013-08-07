@@ -5,7 +5,8 @@ module.exports = function(db) {
 	topicId: String,
 	body: String,
 	createdDate: Number,
-	authorId: String
+	authorId: String,
+        authorName: String
     }, {
 	methods: {
         },
