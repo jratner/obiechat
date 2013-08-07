@@ -4,6 +4,10 @@ body {
 body #main {
   color: #111111;
 }
+body #notificationCenter {
+  position: fixed;
+  right: 0;
+}
 .headerView {
   width: 100%;
   height: 72px;
