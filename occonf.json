@@ -9,6 +9,14 @@
         "secret": "mahballz",
         "key": "oc_instance.sid"
     },
+
+    "db" : {
+        "database": "obiechat",
+        "protocol": "mysql",
+        "host": "localhost",
+        "user": "obiechatServer",
+        "password": "obietalk"
+    },
     
     "pageSize": 10
 }
