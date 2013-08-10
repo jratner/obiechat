@@ -13,6 +13,7 @@
 	"url": "https://github.com/jratner/obiechat"
     },
     "dependencies": {
+        "bower": "*",
 	"underscore": "*",
         "express": "*",
 	"mysql": "2.0.0-alpha7",
