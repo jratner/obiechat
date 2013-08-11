@@ -1,13 +1,13 @@
 require.config({
     paths: {
-        jquery: 'bower_components/jquery/jquery',
-        underscore: "bower_components/underscore/underscore",
-        socketio: 'bower_components/socket.io-client/dist/socket.io',
-        backbone: "bower_components/backbone/backbone",
-        handlebars: "bower_components/require-handlebars-plugin/Handlebars",
-        json2: "bower_components/require-handlebars-plugin/hbs/json2",
-        hbs: "bower_components/require-handlebars-plugin/hbs",
-        i18nprecompile: "bower_components/require-handlebars-plugin/hbs/i18nprecompile"
+        jquery: 'set_bower_components/jquery/jquery',
+        underscore: "set_bower_components/underscore/underscore",
+        socketio: 'set_bower_components/socket.io-client/dist/socket.io',
+        backbone: "set_bower_components/backbone/backbone",
+        handlebars: "set_bower_components/require-handlebars-plugin/Handlebars",
+        json2: "set_bower_components/require-handlebars-plugin/hbs/json2",
+        hbs: "set_bower_components/require-handlebars-plugin/hbs",
+        i18nprecompile: "set_bower_components/require-handlebars-plugin/hbs/i18nprecompile"
     },
     shim: {
         'socketio': {
