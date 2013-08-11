@@ -3,7 +3,8 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var occonf = require("./occonf.json");
-var port = occonf.port || 80;
+var port = process.env.OPENSHIFT_NODEJS_PORT || occonf.port;
+var ipaddr = process.env.OPENSHIFT_NODEJS_IP || '';
 var passportSocketIo = require("passport.socketio");
 var sessionStore = new express.session.MemoryStore();
 var cookieParser = require('connect').cookieParser;
@@ -38,7 +39,7 @@ io.set('authorization', passportSocketIo.authorize({
 
 
 
-server.listen(port, function() {
+server.listen(port, ipaddr, function() {
     console.log('listening on port', port);
 });
 
