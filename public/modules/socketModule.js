@@ -1,9 +1,12 @@
 define(['oc', 'socketio'], function(oc, io) {
+
+    var domain = "localhost";
+    var port = ":3000";
     oc.Modules.socketModule = function() {
         var socket;
         return {
             initialize: function() {
-                socket = io.connect("http://www.obiechat.com/");
+                socket = io.connect("http://localhost:3000/");
                 return socket;
             }
         };

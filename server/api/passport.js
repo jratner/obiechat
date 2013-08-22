@@ -3,7 +3,7 @@ var GoogleStrategy = require('passport-google').Strategy;
 var db = require('../models/db.js');
 var occonf = require('../../occonf.json');
 var port = process.env.OPENSHIFT_NODEJS_PORT || occonf.port;
-var ipaddr = process.env.OPENSHIFT_NODEJS_IP || '';
+var ipaddr = process.env.OPENSHIFT_NODEJS_IP || 'localhost';
 
 module.exports = function(app) {
     var User = db.User;

@@ -1,5 +1,5 @@
 {
-    "development": false,
+    "development": true,
 
     "port": 3000,
 
@@ -13,7 +13,7 @@
     "db" : {
         "database": "obiechat",
         "protocol": "mysql",
-        "host": "127.9.0.130",
+        "host": "localhost",
         "user": "obiechatServer",
         "password": "obietalk"
     },
