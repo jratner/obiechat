@@ -2,6 +2,8 @@ var passport = require('passport');
 var GoogleStrategy = require('passport-google').Strategy;
 var db = require('../models/db.js');
 var occonf = require('../../occonf.json');
+var port = process.env.OPENSHIFT_NODEJS_PORT || occonf.port;
+var ipaddr = process.env.OPENSHIFT_NODEJS_IP || 'localhost';
 
 module.exports = function(app) {
     var User = db.User;
@@ -12,8 +14,8 @@ module.exports = function(app) {
     var googlePaths = {};
 
     if (occonf.development) {
-        googlePaths.returnURL = 'http://localhost:'+ occonf.port +'/auth/google/return';
-        googlePaths.realm = 'http://localhost:' + occonf.port + '/';
+        googlePaths.returnURL = 'http://' + ipaddr + ':'+ port +'/auth/google/return';
+        googlePaths.realm = 'http://' + ipaddr +':' + port + '/';
     } else {
         googlePaths.returnURL = 'http://' + occonf.domainName + '/auth/google/return';
         googlePaths.realm = 'http://' + occonf.domainName + '/';
