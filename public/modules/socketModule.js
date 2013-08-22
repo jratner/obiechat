@@ -6,7 +6,7 @@ define(['oc', 'socketio'], function(oc, io) {
         var socket;
         return {
             initialize: function() {
-                socket = io.connect("http://localhost:3000/");
+                socket = io.connect("http://" + domain + port);
                 return socket;
             }
         };
