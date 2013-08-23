@@ -23,6 +23,10 @@ app.configure(function(){
     }
 });
 
+app.global = {
+    sockets: {}
+};
+
 io.set('authorization', passportSocketIo.authorize({
     cookieParser: cookieParser,
     key: sessionPrefs.key,
@@ -44,5 +48,7 @@ server.listen(port, ipaddr, function() {
 });
 
 var db = require('./server/models/db.js');
-var sockets = require('./server/sockets/socketMain.js')(io);
+var sockets = require('./server/sockets/socketMain.js')(io, app);
 require('./server/api/passport.js')(app);
+require('./server/api/topicApi.js')(app);
+
